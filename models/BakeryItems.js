@@ -1,13 +1,13 @@
-// add schema here
 const mongoose = require('mongoose')
 const { Schema, model } = mongoose
 
 const bakeryItems = new Schema({
   bakeryItemName: { type: String },
   productDescription: { type: String },
-  price: { type: Number },
+  price: { type: String },
+  // price: { type: Number },
 })
 
-const Food = model('Food', bakeryItems)
+const BakeryItem = model('BakeryItem', bakeryItems)
 
-module.exports = Food
+module.exports = BakeryItem
