@@ -5,7 +5,7 @@ const BakeryItem = require('../models/BakeryItems.js')
 // index route
 router.route('/').get((req, res) => {
   BakeryItem.find()
-    .then((bakeryitems) => res.json(bakeryitems))
+    .then((cart) => res.json(cart))
     .catch((err) => res.status(400).json('Error: ' + err))
   // console.log('Request went through, now to retunrn something.')
   // return res.send('Hello Jessica! /get')
@@ -31,6 +31,32 @@ router.route('/add').post((req, res) => {
     .catch((err) => res.status(400).json('Error: This is not working...' + err))
 
   // return res.send(newBakedGood)
+})
+
+router.route('/:id').get((req, res) => {
+  BakeryItem.findById(req.params.id)
+    .then((cart) => res.json(cart))
+    .catch((err) => res.status(400).json('Error: ' + err))
+})
+
+router.route('/update/:id').post((req, res) => {
+  BakeryItem.findById(req.params.id)
+    .then((cart) => {
+      cart.bakeryItemName = req.body.bakeryItemName
+      cart.price = req.body.price
+
+      cart
+        .save()
+        .then(() => res.json('bakery item updated in cart!'))
+        .catch((err) => res.status(400).json('Error: ' + err))
+    })
+    .catch((err) => res.status(400).json('Error: ' + err))
+})
+
+router.route('/:id').delete((req, res) => {
+  BakeryItem.findByIdAndDelete(req.params.id)
+    .then(() => res.json('bakery item deleted from cart.'))
+    .catch((err) => res.status(400).json('Error: ' + err))
 })
 
 module.exports = router
